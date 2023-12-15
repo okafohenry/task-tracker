@@ -1,6 +1,6 @@
 # Task Tracker Application
 
-This is a task tracker application built with React, Redux Toolkit, and MOCK Api (https://mock-api.binaryboxtuts.com/) for user Authentication.
+This is a task tracker application built with Nextjs, Redux Toolkit, and MOCK Api (https://mock-api.binaryboxtuts.com/) for user Authentication.
 
 ## Features
 
