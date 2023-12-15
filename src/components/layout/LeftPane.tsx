@@ -85,17 +85,17 @@ function LeftPane() {
                     </div> 
                 </Link> */}
             </div>
-            <div className="mt-[15rem]"> 
-                <button 
+            <button 
                 onMouseOver={() => setLogoutActive(true)}
                 onMouseOut={() => setLogoutActive(false)}
                 onClick={handleLogout}
-                className="mt-[3rem] flex flex-row gap-x-5 w-[100%] text-black items-center md:justify-start justify-center  cursor-pointer hover:bg-black hover:text-white md:py-4 p-2 md:px-7">
+                className="mt-[3rem] flex flex-row gap-x-5 w-[100%] text-black items-center md:justify-start justify-center  cursor-pointer hover:bg-black hover:text-white md:py-4 p-2 md:px-5">
                     <Image src={logoutActive ? logoutIconOn  : logoutIcon} alt="log-out" height={22} width={22} />
                     <p className="lg:block hidden">Logout</p>
-                </button>
+            </button>
 
 
+            <div className="mt-[15rem]"> 
                 <div className="mt-[5rem] lg:h-[80px] lg:w-[80px] h-[30px] w-[30px] mx-auto rounded-full  flex items-center justify-center">
                     <Image src={profileIcon} alt="user" className="" />
                 </div>
