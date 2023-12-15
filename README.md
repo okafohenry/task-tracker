@@ -24,10 +24,10 @@ Before running the application, make sure you have the following installed:
    - ```cd task-tracker-app```
 
 2. Install dependencies:
-  ```npm install```
+  - ```npm install```
 
 3. Run the application:
-    ```npm run dev```
+ - ```npm run dev```
 
 The application will be accessible at http://localhost:3000 in your web browser.
 
