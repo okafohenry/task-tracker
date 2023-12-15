@@ -19,8 +19,8 @@ Before running the application, make sure you have the following installed:
 
 1. Clone the repository:
 
-   ``` git clone https://github.com/okafohenry/task-tracker.git ```
-   ```cd task-tracker-app```
+   - ``` git clone https://github.com/okafohenry/task-tracker.git ```
+   - ```cd task-tracker-app```
 
 2. Install dependencies:
   ```npm install```
