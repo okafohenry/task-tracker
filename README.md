@@ -6,8 +6,9 @@ This is a task tracker application built with React, Redux Toolkit, and MOCK Api
 
 - Display a kanban board with 4 columns: Open, Pending, In Progress, Completed.
 - Allow users to add, edit, and delete tasks.
-- User authentication (Sign up and Sign in) using Redux Toolkit and Firebase.
+- User authentication (Sign up and Sign in) using Redux Toolkit and MOCK Api (https://mock-api.binaryboxtuts.com/).
 - Responsive design using Tailwind CSS.
+- Draggable task between columns using react-beautiful-dnd
 
 ## Prerequisites
 
