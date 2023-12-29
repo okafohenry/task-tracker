@@ -40,7 +40,7 @@ function LeftPane() {
             if(res?.error){
                 toast.error(res?.error)
             }else {
-                toast.success(res?.message);
+                toast.success('Logout successful!');
                 localStorage.removeItem('tracka-token');
                 dispatch(logout());
                 router.push('/');

@@ -2,7 +2,7 @@ import { setToken, setUser } from '../redux/reducers/userReducer';
 import UserService from '../services/users.services';
 import Image from 'next/image'
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 
@@ -19,32 +19,39 @@ export default function Signin() {
   const dispatch = useDispatch();
   const inputStyle = "w-full text-black font-normal px-[12px] py-[10px] rounded-[6px] border border-gray-50 outline-black";
 
+ 
+
   const handleSignIn = () => {
     if(formData.email === '' || formData.password === ''){
       toast.error('Ensure no field is empty!');
       return;
     };
 
-    setLoading(true);
-    try {
-      userService.SignIn(formData)
-      .then((res) => {
-        console.log(res);
+    if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      setLoading(true);
+      try {
+        userService.SignIn(formData)
+        .then((res) => {
+          setLoading(false);
+          if(res?.error){
+            toast.error(res?.error);
+          }else{
+            toast.success('Login successful!');
+            dispatch(setUser(res.user));
+            dispatch(setToken(res.token));
+            localStorage.setItem('tracka-token', res?.token);
+            router.push('/tasks')
+          }
+        })
+      }catch(err: any){
         setLoading(false);
-        if(res?.error){
-          toast.error(res?.error);
-        }else{
-          toast.success('Login successful!');
-          dispatch(setUser(res.user));
-          dispatch(setToken(res.token));
-          localStorage.setItem('tracka-token', res?.token);
-          router.push('/tasks')
-        }
-      })
-    }catch(err: any){
-      setLoading(false);
-      toast.error(err?.message)
+        toast.error(err?.message)
+      }
+      
+    }else {
+      toast.error('Email format incorrect!');
     }
+
   }
 
   return (
@@ -68,7 +75,7 @@ export default function Signin() {
           <label>Email</label><br />
           <input
             className={`${inputStyle}`} 
-            onChange={(e: any) => setFormData({...formData, email: e.target.value})}
+            onChange={(e: ChangeEvent<HTMLInputElement>) => setFormData({...formData, email: e.target.value})}
             value={formData.email}
             required
             type="email" />
@@ -77,7 +84,7 @@ export default function Signin() {
           <label>Password</label><br />
           <input
             className={`${inputStyle}`}
-            onChange={(e: any) => setFormData({...formData, password: e.target.value})}
+            onChange={(e: ChangeEvent<HTMLInputElement>) => setFormData({...formData, password: e.target.value})}
             value={formData.password}
             required
             type="password" />

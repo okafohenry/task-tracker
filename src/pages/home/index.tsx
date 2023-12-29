@@ -14,7 +14,7 @@ import { useRouter } from "next/router";
 
 
 const initialState = {
-    title: '',
+    name: '',
     description: '',
     dueDate: formatDateToYYYYMMDD(new Date()),
     column: 'open'
@@ -22,39 +22,14 @@ const initialState = {
 
 function Home(){
     const [formData, setFormData] = useState(initialState);
+    const [loading, setLoading] = useState(false);
     const [startDate, setStartDate] = useState(new Date());
-    const dispatch = useDispatch();
-    const taskService = new TaskService();
     const user = useSelector((state: any) => state.user);
     const router = useRouter();
+    const dispatch = useDispatch();
+    const taskService = new TaskService();
 
     const inputStyle = "text-black font-normal px-[12px] py-[10px] rounded-[6px] border border-gray-50 outline-black";
-
-    const handleDateChange = (arg: any) => {
-        const formattedDate = formatDateToYYYYMMDD(arg);
-        setFormData({ ...formData, dueDate: formattedDate });  
-        console.log(formattedDate)
-    };
-
-    const handleAddTask = () => {
-        if(formData.title === '' || formData.description === '') return;
-
-        const id = uuidv4();
-        const updatedFormData = {...formData, id};
-
-        try {
-            taskService.AddTask(updatedFormData)
-            .then((res) => {
-                console.log(res);
-                setFormData(initialState);
-                dispatch(addTask(res));
-                toast.success('Task Added Successfully!');
-            })
-        }catch(err){
-            console.log(err);
-        }
-
-    }
 
     useEffect(() => {
         const token = localStorage.getItem('tracka-token');
@@ -62,6 +37,40 @@ function Home(){
             router.push('/');
         }
     }, []);
+
+    const handleDateChange = (arg: Date) => {
+        const formattedDate = formatDateToYYYYMMDD(arg);
+        setFormData({ ...formData, dueDate: formattedDate });  
+    };
+
+    const handleAddTask = () => {
+        if(formData.name === '' || formData.description === '') return;
+
+        const id = uuidv4();
+        const updatedFormData = {...formData, id};
+
+        setLoading(true);
+        try {
+            taskService.AddTask(updatedFormData)
+            .then((res) => {
+                setLoading(false)
+                if(res?.error){
+                    toast.error(res?.error);
+                  }else{  
+                    setFormData(initialState);
+                    const data = {...res, column: 'open', dueDate: res?.created_at}
+                    dispatch(addTask(data));
+                    toast.success('Task Added Successfully!');
+                  }
+            })
+        }catch(err: any){
+            setLoading(false);
+            // console.log(err);
+            toast.error(err?.message || err?.msg || err)
+        }
+
+    }
+
 
     return (
         <AppLayout>
@@ -74,8 +83,8 @@ function Home(){
                             type="text"
                             className={`${inputStyle} lg:w-[70%] w-full`}
                             placeholder="Task title"
-                            onChange={(e) => setFormData({...formData, title: e.target.value})}
-                            value={formData.title}
+                            onChange={(e) => setFormData({...formData, name: e.target.value})}
+                            value={formData.name}
                         />
                         <div className={`${inputStyle} lg:w-[30%] w-full bg-white`}>
                             <p className="text-[10px]">Due date</p>
@@ -84,7 +93,7 @@ function Home(){
                                 // placeholderText="Due Date"
                                 className="w-full"
                                 onSelect={(date) => setStartDate(date)} //when day is clicked
-                                onChange={(date) => handleDateChange(date)} //only when value has changed 
+                                onChange={(date: Date) => handleDateChange(date)} //only when value has changed 
                             />
                         </div>
                     </div>
@@ -97,7 +106,7 @@ function Home(){
                         rows={12}>
                     </textarea>
 
-                    <button onClick={handleAddTask} className="w-full font-normal px-[12px] py-[15px] rounded-[6px] bg-gray-700 hover:bg-gray-700/[.9]">Add Task</button>
+                    <button onClick={handleAddTask} className="w-full font-normal px-[12px] py-[15px] rounded-[6px] bg-zinc-600 hover:bg-zinc-600/[0.7]">{loading ? 'Creating task...' : 'Add Task'}</button>
                 </div>
            </div>
         </AppLayout>

@@ -1,7 +1,11 @@
+import { SignInProps, SignUpProps } from "@components/models/auth";
 import { request } from "../hooks/api";
 
+
+
+
 class UserService {
-    async SignUp(payload: any) {
+    async SignUp(payload: SignUpProps) {
         try {
         const response = await request(
             "api/register", 
@@ -17,7 +21,7 @@ class UserService {
         }
     }
 
-    async SignIn(payload: any) {
+    async SignIn(payload: SignInProps) {
         try {
           const response = await request(
             "api/login", 

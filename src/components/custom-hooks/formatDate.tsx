@@ -1,14 +1,19 @@
-function formatDateToYYYYMMDD(date: any) {
-    const year = date.getFullYear();
-    const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Months are zero-based
-    const day = date.getDate().toString().padStart(2, '0');
+function formatDateToYYYYMMDD(inputDateString: string | Date) {
+  // / Parse the input date string
+  const dateObject = new Date(inputDateString);
   
-    return `${year}-${month}-${day}`;
-  }
+  // Get year, month, and day components
+  const year = dateObject.getFullYear();
+  const month = String(dateObject.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+  const day = String(dateObject.getDate()).padStart(2, '0');
+  
+  // Format the result
+  const formattedDate = `${year}/${month}/${day}`;
+  return formattedDate;
+}
 
 export default formatDateToYYYYMMDD;
   
   // Example usage:
 //   const today = new Date();
 //   const formattedDate = formatDateToYYYYMMDD(today);
-//   console.log(formattedDate);

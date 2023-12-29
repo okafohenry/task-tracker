@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import { setToken, setUser } from '../redux/reducers/userReducer';
 import UserService from '../services/users.services';
-import { useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -27,17 +27,18 @@ export default function Signup() {
         toast.error('Ensure no field is empty!');
         return;
     };
+
     if(formData.password !== formData.password_confirmation){
         toast.error('Passwords must match!');
         return;
     }
 
-    setLoading(true);
-    try {
+    if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      setLoading(true);
+      try {
         userService.SignUp(formData)
         .then((res) => {
-            setLoading(false)
-            console.log(res);
+            setLoading(false);
             if(res?.errors){
                 toast.error(res?.message)
             }else{
@@ -50,11 +51,15 @@ export default function Signup() {
 
             // navigate('/tasks'); 
         })
-    }catch(err: any){
-      setLoading(false);
-      console.log(err);
-      toast.error(err)
+      }catch(err: any){
+        setLoading(false);
+        toast.error(err)
+      }
+    }else {
+      toast.error('Email format incorrect!');
     }
+
+   
   }
 
   return (
@@ -73,12 +78,12 @@ export default function Signup() {
         <h1 className='lg:text-3xl text-xl font-bold mb-4'>Create Account</h1>
       </div>
 
-      <div className="absolute top-[8rem] grid gap-y-6 lg:w-[30%] w-[80%] lg:px-[2rem] pt-[2rem] pb-[3rem] rounded-md px-3 mx-auto bg-zinc-800 shadow-md">
+      <div className="absolute top-[9.6rem] grid gap-y-6 lg:w-[30%] w-[80%] lg:px-[2rem] pt-[2rem] pb-[3rem] rounded-md px-3 mx-auto bg-zinc-800 shadow-md">
         <div>
           <label>Full name</label><br />
           <input
             className={`${inputStyle}`} 
-            onChange={(e: any) => setFormData({...formData, name: e.target.value})}
+            onChange={(e: ChangeEvent<HTMLInputElement>) => setFormData({...formData, name: e.target.value})}
             value={formData.name}
             required
             type="text" />
@@ -87,7 +92,7 @@ export default function Signup() {
           <label>Email</label><br />
           <input
             className={`${inputStyle}`} 
-            onChange={(e: any) => setFormData({...formData, email: e.target.value})}
+            onChange={(e: ChangeEvent<HTMLInputElement>) => setFormData({...formData, email: e.target.value})}
             value={formData.email}
             required
             type="email" />
@@ -96,7 +101,7 @@ export default function Signup() {
           <label>Password</label><br />
           <input
             className={`${inputStyle}`}
-            onChange={(e: any) => setFormData({...formData, password: e.target.value})}
+            onChange={(e: ChangeEvent<HTMLInputElement>) => setFormData({...formData, password: e.target.value})}
             value={formData.password}
             required
             type="password" />
@@ -105,7 +110,7 @@ export default function Signup() {
           <label>Confirm Password</label><br />
           <input
             className={`${inputStyle}`}
-            onChange={(e: any) => setFormData({...formData, password_confirmation: e.target.value})}
+            onChange={(e: ChangeEvent<HTMLInputElement>) => setFormData({...formData, password_confirmation: e.target.value})}
             value={formData.password_confirmation}
             required
             type="password" />

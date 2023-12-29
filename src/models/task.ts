@@ -1,6 +1,6 @@
 export interface T {
-    id: number;
-    title: string;
+    id: number | string;
+    name: string;
     description: string;
     dueDate: string;
     column: string;

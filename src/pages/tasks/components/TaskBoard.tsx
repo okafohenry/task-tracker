@@ -1,20 +1,36 @@
 // components/TaskBoard.js
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { DragDropContext } from 'react-beautiful-dnd';
 import { useDispatch, useSelector } from 'react-redux';
 import TaskList from './TaskList';
 import { addTask, editTask, } from '../../../redux/reducers/taskReducer';
+import { T, TaskProps } from '../../../models/task';
+import TaskService from '../../../services/tasks.services';
+import { toast } from 'react-toastify';
+// import { T } from '@components/models/task'; 
 
 
 
 const TaskBoard = () => {
   const dispatch = useDispatch();
-  const tasks  = useSelector((state: any) => state.tasks.tasks);
+  // const [tasks, setTasks] = useState<any>({
+  //   tasks: []
+  // });
+  const taskService = new TaskService();
+  const tasks  = useSelector((state: any) => state?.tasks.tasks);
 
-  console.log('tasks', tasks)
+  useEffect(() => {
+    taskService.AllTasks()
+    .then((res) => {
+      if(res?.error){
+        toast.error(res?.error)
+      }else{
+        // console.log(res);
+      }
+    })
+  }, [])
 
   const onDragEnd = (result: any) => {
-    console.log(result);
     
     const { source, destination, draggableId } = result;
 
@@ -23,9 +39,7 @@ const TaskBoard = () => {
 
     // Check if the task was dropped in a different column
     if (source.droppableId !== destination.droppableId) {
-      const updatedTask = { ...tasks.find((task: any) => task.id === Number(draggableId)), column: destination.droppableId };
-      console.log('updated', updatedTask)
-      console.log('main', tasks)
+      const updatedTask =  { ...tasks?.find((task: any) => task.id === Number(draggableId)), column: destination.droppableId };
       dispatch(editTask(updatedTask));
     }
   };
@@ -45,10 +59,10 @@ const TaskBoard = () => {
   return (
     <div className="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1">
       <DragDropContext onDragEnd={onDragEnd}>
-        <TaskList column="Open" tasks={tasks.filter((task: any) => task.column.toLowerCase() === 'open')} />
-        <TaskList column="Pending" tasks={tasks.filter((task: any) => task.column.toLowerCase() === 'pending')} />
-        <TaskList column="In Progress" tasks={tasks.filter((task: any) => task.column.toLowerCase() === 'in progress')} />
-        <TaskList column="Completed" tasks={tasks.filter((task: any) => task.column.toLowerCase() === 'completed')} />
+        <TaskList column="Open" tasks={tasks?.filter((task: T) => task.column.toLowerCase() === 'open')} />
+        <TaskList column="Pending" tasks={tasks?.filter((task: T) => task.column.toLowerCase() === 'pending')} />
+        <TaskList column="In Progress" tasks={tasks?.filter((task: T) => task.column.toLowerCase() === 'in progress')} />
+        <TaskList column="Completed" tasks={tasks?.filter((task: T) => task.column.toLowerCase() === 'completed')} />
       </DragDropContext>
       {/* <div className="flex-1 p-4 m-2">
         <button onClick={handleAddTask} className="py-2 px-4 bg-blue-500 text-white rounded-md">

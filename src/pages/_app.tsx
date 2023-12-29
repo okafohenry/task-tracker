@@ -7,10 +7,35 @@ import type { AppProps } from 'next/app'
 import { store } from "../redux/store/store";
 import AppLayout from "../components/layout/AppLayout";
 import 'react-toastify/dist/ReactToastify.css';
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
+import { useSelector } from "react-redux";
+import UserService from "../services/users.services";
+import { useDispatch } from "react-redux";
+import { useRouter } from "next/router";
+import { logout } from "../redux/reducers/userReducer";
 
 function AppWrapper({ Component, pageProps, ...appProps }: AppProps) {
+  const user = useSelector((state: any) => state.user);
+  const userService = new UserService();
+  const dispatch = useDispatch();
+  const router = useRouter();
 
+  useEffect(() => {
+    if(!appProps.router.pathname.includes("/signup")){
+      if(!user.token){
+        toast.success('Logout successful!');
+        dispatch(logout());
+        router.push('/');
+        // userService.Logout()
+        // .then((res) => {
+        //     if(res?.error){
+        //         toast.error(res?.error)
+        //     }else {
+        //     }
+        // })
+      }
+    }
+  }, [])
 
   const isLayoutNeeded = appProps.router.pathname.includes("/auth");
 

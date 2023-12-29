@@ -4,8 +4,8 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 const initialState: TaskProps = {
     tasks: [
-        { id: 1, title: 'Task 1', description: 'Description 1', dueDate: '2023-12-31', column: 'open' },
-        { id: 2, title: 'Task 2', description: 'Description 2', dueDate: '2023-12-31', column: 'pending' },
+        { id: 1, name: 'Task 1', description: 'Description 1', dueDate: '2023-12-31', column: 'open' },
+        { id: 2, name: 'Task 2', description: 'Description 2', dueDate: '2023-12-31', column: 'pending' },
         // Add more initial tasks as needed
       ],
 };
@@ -23,7 +23,7 @@ const taskSlice = createSlice({
             state.tasks[index] = action.payload;
         }
     },
-    deleteTask: (state: any, action: PayloadAction<number>) => {
+    deleteTask: (state: any, action: PayloadAction<number | string>) => {
         state.tasks = state.tasks.filter((task: any) => task.id !== action.payload);
     }
   },
