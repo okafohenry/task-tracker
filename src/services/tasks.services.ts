@@ -1,7 +1,8 @@
+import { T } from "../models/task";
 import { request } from "../hooks/api";
 
 class TaskService {
-    async AddTask(data: any) {
+    async AddTask(data: T) {
         try {
         const response = await request(
             "api/projects", 

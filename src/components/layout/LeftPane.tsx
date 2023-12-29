@@ -11,6 +11,14 @@ import UserService from "../../services/users.services";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { logout } from "../../redux/reducers/userReducer";
+import { RootState } from "@components/redux/reducers";
+
+
+interface N {
+    icon: string;
+    name: string;
+    route: string;
+}
 
 const navs = [
     {
@@ -27,8 +35,8 @@ const navs = [
 
 function LeftPane() {
     const route = useRouter().route;
-    const [active, setActive] = useState<any>(null);
-    const user = useSelector((state: any) => state.user.userInfo);
+    const [active, setActive] = useState<null| N>(null);
+    const user = useSelector((state: RootState) => state.user.userInfo);
     const [logoutActive, setLogoutActive] = useState(false);
     const userService = new UserService();
     const dispatch = useDispatch();

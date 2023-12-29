@@ -13,9 +13,10 @@ import UserService from "../services/users.services";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/router";
 import { logout } from "../redux/reducers/userReducer";
+import { RootState } from "@components/redux/reducers";
 
 function AppWrapper({ Component, pageProps, ...appProps }: AppProps) {
-  const user = useSelector((state: any) => state.user);
+  const user = useSelector((state: RootState) => state.user);
   const userService = new UserService();
   const dispatch = useDispatch();
   const router = useRouter();

@@ -5,8 +5,8 @@ import Task from './Task';
 import { T, TaskProps } from '@components/models/task';
 
 interface TaskListProps {
-    column: any,
-    tasks: any
+    column: string,
+    tasks: T[]
 }
 
 const TaskList = ({ column, tasks }: TaskListProps) => {
