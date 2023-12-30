@@ -24,7 +24,7 @@ function AppWrapper({ Component, pageProps, ...appProps }: AppProps) {
   useEffect(() => {
     if(!appProps.router.pathname.includes("/signup")){
       if(!user.token){
-        toast.success('Logout successful!');
+        toast.error('login to resume activity!');
         dispatch(logout());
         router.push('/');
         // userService.Logout()
