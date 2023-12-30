@@ -3,8 +3,7 @@ import React, { useEffect } from "react";
 // import { AppLayout } from "@/layout/index";
 import "../app/globals.css";
 import { Provider } from "react-redux";
-import type { AppProps } from 'next/app'
-import { store } from "../redux/store/store";
+import type { AppProps } from 'next/app';
 import AppLayout from "../components/layout/AppLayout";
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from "react-toastify";
@@ -13,10 +12,11 @@ import UserService from "../services/users.services";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/router";
 import { logout } from "../redux/reducers/userReducer";
-import { RootState } from "@components/redux/reducers";
+import { store } from "../redux/store/store";
+// import { RootState } from "@components/redux/reducers";
 
 function AppWrapper({ Component, pageProps, ...appProps }: AppProps) {
-  const user = useSelector((state: RootState) => state.user);
+  const user = useSelector((state: any) => state.user);
   const userService = new UserService();
   const dispatch = useDispatch();
   const router = useRouter();

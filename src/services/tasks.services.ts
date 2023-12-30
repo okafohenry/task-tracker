@@ -34,7 +34,7 @@ class TaskService {
         }
       }
 
-      async EditTask(id: number | string, data: {name: number | string, description: string}) {
+      async EditTask(id: number | string, data: {name: string, description: string}) {
         try {
           const response = await request(
             `api/projects/${id}`, 

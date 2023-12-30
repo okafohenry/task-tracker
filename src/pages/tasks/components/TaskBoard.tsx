@@ -7,7 +7,7 @@ import { addTask, editTask, } from '../../../redux/reducers/taskReducer';
 import { T, TaskProps } from '../../../models/task';
 import TaskService from '../../../services/tasks.services';
 import { toast } from 'react-toastify';
-import { RootState } from '../../../redux/reducers';
+// import { RootState } from '../../../redux/reducers';
 // import { T } from '@components/models/task'; 
 
 
@@ -15,7 +15,7 @@ import { RootState } from '../../../redux/reducers';
 const TaskBoard = () => {
   const dispatch = useDispatch();
   const taskService = new TaskService();
-  const tasks  = useSelector((state: RootState) => state?.tasks.tasks);
+  const tasks  = useSelector((state: any) => state?.tasks.tasks);
 
   useEffect(() => {
     taskService.AllTasks()
@@ -37,7 +37,7 @@ const TaskBoard = () => {
 
     // Check if the task was dropped in a different column
     if (source.droppableId !== destination.droppableId) {
-      const updatedTask =  { ...tasks?.find((task: T) => task.id === Number(draggableId)), column: destination.droppableId };
+      const updatedTask =  { ...tasks.find((task: T) => task.id === Number(draggableId)), column: destination.droppableId };
       dispatch(editTask(updatedTask));
     }
   };

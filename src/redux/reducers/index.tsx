@@ -10,4 +10,4 @@ import {
   });
   
   export default rootReducer;
-  export type RootState = ReturnType<any>;
+  // export type RootState = ReturnType<any>;

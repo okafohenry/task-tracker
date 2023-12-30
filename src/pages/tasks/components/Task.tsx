@@ -25,11 +25,11 @@ const Task = ({ task, index }: TaskProp) => {
   // const [startDate, setStartDate] = useState(new Date());
   const [ toggleModal, setToggleModal ] = useState(false);
   const [ item, updateItem ] = useState({
-    id: task.id,
-    name: task.name,
-    description: task.description,
-    dueDate: task.dueDate,
-    column: task.column
+    id: task?.id,
+    name: task?.name,
+    description: task?.description,
+    dueDate: task?.dueDate,
+    column: task?.column
   })
   const taskService = new TaskService();
 
@@ -39,11 +39,11 @@ const Task = ({ task, index }: TaskProp) => {
   };
 
 const handleEdit = () => {
-  if(item.name === "" || item.description === "") return;
+  if(item?.name === "" || item?.description === "") return;
 
-  const data = { name: item.name, description: item.description}
+  const data = { name: item?.name, description: item?.description}
   setEditLoading(true);
-  taskService.EditTask(item.id, data)
+  taskService.EditTask(item?.id, data)
   .then((res) => {
     setEditLoading(false)
     if(res?.error){
@@ -73,7 +73,7 @@ const handleDelete = () => {
 
   return (
     <>
-      <Draggable draggableId={task.id.toString()} index={index}>
+      <Draggable draggableId={task?.id?.toString()} index={index}>
         {(provided) => (
           <div
             {...provided.draggableProps}
@@ -84,13 +84,13 @@ const handleDelete = () => {
               <div className="flex justify-between items-center" >
                   <h3 
                     onClick={() => setToggleModal(true)} 
-                    className="font-semibold text-gray-900 text-[16px]">{task.name}</h3>
+                    className="font-semibold text-gray-900 text-[16px]">{task?.name}</h3>
                   <Image 
                     src={showDetails ? arrowIcon : downIcon} alt='dropdown' 
                     onClick={() => setShowDetails(!showDetails)}
                     height={17} width={17} /> 
               </div>
-              {showDetails && <p className="text-gray-600 text-[14px]">{task.description}</p>}
+              {showDetails && <p className="text-gray-600 text-[14px]">{task?.description}</p>}
               <p className="text-[11.5px] text-gray-500">Due Date: {formatDateToYYYYMMDD(task?.dueDate)}</p>
           </div>
         )}

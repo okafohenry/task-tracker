@@ -14,7 +14,7 @@ import storage from "redux-persist/lib/storage";
 import rootReducer from "../reducers";
 
 const persistConfig = {
-  key: "admin:root",
+  key: "tracka:root",
   version: 1,
   storage,
 };
