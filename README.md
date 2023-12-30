@@ -38,6 +38,10 @@ The application will be accessible at http://localhost:3000 in your web browser.
 - Edit, and delete tasks by left-clicking on the a task title
 - View task description by left-clicking on the **angle down** icon
 
+## Constraints
+
+- Tracka utilizes redux-persist feature additionally to retain added tasks, this feature displays all tasks added irrespective of user logged-in, this is because the logic made available on the third-party endpoint has a logic deficiency to provide the frontend needs required for smooth and faultless running of the task-tracka application.
+
 
 ## Additional Information
 
